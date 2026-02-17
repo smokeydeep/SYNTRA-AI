@@ -10,13 +10,11 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Nenhuma mensagem recebida' });
     }
 
-    // Verifica se a chave da OpenAI está definida
     if (!process.env.OPENAI_API_KEY) {
       console.error("API Key da OpenAI não encontrada!");
       return res.status(500).json({ error: 'API Key da OpenAI não configurada' });
     }
 
-    // Faz a requisição para a OpenAI
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -35,14 +33,11 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
-
     console.log("Resposta da OpenAI:", data); // debug
 
-    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
-      return res.status(500).json({ error: 'Resposta inválida da OpenAI' });
-    }
+    // Corrige undefined
+    const reply = data?.choices?.[0]?.message?.content || "Desculpe, não consegui responder.";
 
-    const reply = data.choices[0].message.content;
     res.status(200).json({ reply });
 
   } catch (error) {
