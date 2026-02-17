@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYNTRA AI - Sua Assistente Inteligente</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <svg class="ai-icon" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h1>SYNTRA AI</h1>
+            </div>
+            <div class="header-buttons">
+                <button class="clear-btn" id="clearChat">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M3 6H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M19 6V20C19 21 18 22 17 22H7C6 22 5 21 5 20V6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M8 6V4C8 3 9 2 10 2H14C15 2 16 3 16 4V6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    Limpar
+                </button>
+            </div>
+        </header>
+
+        <div class="chat-container" id="chatContainer">
+            <div class="welcome-screen" id="welcomeScreen">
+                <div class="welcome-content">
+                    <div class="welcome-icon">
+                        <svg viewBox="0 0 100 100" fill="none">
+                            <circle cx="50" cy="50" r="45" stroke="url(#gradient)" stroke-width="3"/>
+                            <path d="M35 45C35 45 40 40 45 45C50 50 50 50 50 50" stroke="url(#gradient)" stroke-width="3" stroke-linecap="round"/>
+                            <path d="M65 45C65 45 60 40 55 45C50 50 50 50 50 50" stroke="url(#gradient)" stroke-width="3" stroke-linecap="round"/>
+                            <path d="M35 65C35 65 42 72 50 72C58 72 65 65 65 65" stroke="url(#gradient)" stroke-width="3" stroke-linecap="round"/>
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <h2>Olá! Sou a SYNTRA AI</h2>
+                    <p>Estou aqui para ajudar você com:</p>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <span class="feature-icon">💬</span>
+                            <span>Conversas inteligentes</span>
+                        </div>
+                        <div class="feature-card">
+                            <span class="feature-icon">🎨</span>
+                            <span>Criação de imagens</span>
+                        </div>
+                        <div class="feature-card">
+                            <span class="feature-icon">🎬</span>
+                            <span>Geração de vídeos</span>
+                        </div>
+                        <div class="feature-card">
+                            <span class="feature-icon">📚</span>
+                            <span>Leitura e análise</span>
+                        </div>
+                        <div class="feature-card">
+                            <span class="feature-icon">💰</span>
+                            <span>Gestão financeira</span>
+                        </div>
+                        <div class="feature-card">
+                            <span class="feature-icon">📊</span>
+                            <span>Análise de preços</span>
+                        </div>
+                    </div>
+                    <div class="suggested-prompts">
+                        <p class="prompts-title">Experimente perguntar:</p>
+                        <button class="prompt-btn" data-prompt="O que é inteligência artificial?">🧠 O que é inteligência artificial?</button>
+                        <button class="prompt-btn" data-prompt="Me fale sobre Python">💻 Me fale sobre Python</button>
+                        <button class="prompt-btn" data-prompt="Como organizar minhas finanças?">💰 Como organizar finanças?</button>
+                        <button class="prompt-btn" data-prompt="Crie uma imagem de espaço">🎨 Crie imagem de espaço</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="messages" id="messages"></div>
+        </div>
+
+        <div class="input-container">
+            <div class="input-wrapper">
+                <textarea 
+                    id="userInput" 
+                    placeholder="Digite sua mensagem para SYNTRA AI..." 
+                    rows="1"
+                ></textarea>
+                <button class="send-btn" id="sendBtn">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

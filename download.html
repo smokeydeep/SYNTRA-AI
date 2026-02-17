@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYNTRA AI - Download</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeIn 1s ease;
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: #a0aec0;
+        }
+
+        .download-section {
+            background: rgba(30, 35, 60, 0.9);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            animation: slideUp 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.5rem 3rem;
+            border-radius: 15px;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            margin: 1rem 0;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature {
+            background: rgba(20, 25, 45, 0.8);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: #a0aec0;
+            margin-top: 0.5rem;
+        }
+
+        .instructions {
+            background: rgba(20, 25, 45, 0.6);
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+            margin: 2rem 0;
+        }
+
+        .instructions h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .instructions ol {
+            margin-left: 1.5rem;
+            line-height: 2;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: #a0aec0;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .logo { font-size: 3rem; }
+            .download-section { padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🤖</div>
+            <h1>SYNTRA AI</h1>
+            <p class="tagline">Sua Assistente Inteligente no Espaço</p>
+        </div>
+
+        <div class="download-section">
+            <h2 style="text-align: center; margin-bottom: 2rem;">📦 Download Gratuito</h2>
+            
+            <div style="text-align: center;">
+                <a href="SYNTRA-AI-v1.0.0.zip" class="download-btn" download>
+                    ⬇️ Baixar SYNTRA AI v1.0.0
+                </a>
+                <p style="margin-top: 1rem; color: #a0aec0;">
+                    Tamanho: 26 KB | Versão: 1.0.0 | Atualizado: Fev 2026
+                </p>
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Gratuito</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">APIs Pagas</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">12+</div>
+                    <div class="stat-label">Tópicos IA</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">Conversas</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🧠</div>
+                <h3>IA Própria</h3>
+                <p>Sistema inteligente com base de conhecimento expandida e categorização automática</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎨</div>
+                <h3>Cria Imagens</h3>
+                <p>Gere imagens temáticas instantaneamente com IA visual integrada</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">💰</div>
+                <h3>Gestão Financeira</h3>
+                <p>Organize finanças, analise preços e receba dicas de economia</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🌐</div>
+                <h3>Busca Web</h3>
+                <p>Integração opcional com Wikipedia e DuckDuckGo para informações atualizadas</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎬</div>
+                <h3>Gera Vídeos</h3>
+                <p>Crie e visualize vídeos diretamente no aplicativo</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔒</div>
+                <h3>100% Privado</h3>
+                <p>Funciona offline, dados salvos localmente, sem rastreamento</p>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>🚀 Como Usar (3 Passos)</h3>
+            <ol>
+                <li><strong>Baixe</strong> o arquivo ZIP acima</li>
+                <li><strong>Extraia</strong> todos os arquivos para uma pasta</li>
+                <li><strong>Abra</strong> o arquivo <code>index.html</code> no navegador</li>
+            </ol>
+            <p style="margin-top: 1rem; color: #a0aec0;">
+                ℹ️ Leia o arquivo <strong>README.md</strong> para instruções completas
+            </p>
+        </div>
+
+        <div class="download-section">
+            <h3 style="margin-bottom: 1rem;">📋 O que está incluído?</h3>
+            <ul style="line-height: 2; margin-left: 1.5rem;">
+                <li>✅ <strong>index.html</strong> - Aplicativo principal</li>
+                <li>✅ <strong>styles.css</strong> - Design espacial completo</li>
+                <li>✅ <strong>script.js</strong> - Inteligência artificial</li>
+                <li>✅ <strong>README.md</strong> - Documentação completa</li>
+                <li>✅ <strong>INSTALACAO.md</strong> - Guia de instalação</li>
+                <li>✅ <strong>GUIA-RAPIDO.md</strong> - Manual de uso rápido</li>
+                <li>✅ <strong>LICENSE</strong> - Licença MIT (livre uso)</li>
+            </ul>
+        </div>
+
+        <div class="download-section" style="background: rgba(102, 126, 234, 0.1);">
+            <h3 style="text-align: center; margin-bottom: 1rem;">🌟 Recursos Premium - Totalmente Grátis!</h3>
+            <div style="display: grid; gap: 1rem;">
+                <div>🎯 <strong>Respostas Inteligentes:</strong> Nunca responde "nada com nada"</div>
+                <div>💬 <strong>Memória Contextual:</strong> Lembra das conversas anteriores</div>
+                <div>🎨 <strong>Tema Espacial:</strong> Estrelas animadas e efeitos neon</div>
+                <div>📱 <strong>Responsivo:</strong> Funciona em qualquer dispositivo</div>
+                <div>⚡ <strong>Super Rápido:</strong> Respostas em menos de 1 segundo</div>
+                <div>🌐 <strong>Multi-idioma:</strong> Português (PT-BR) nativo</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🌌 SYNTRA AI - Versão 1.0.0</p>
+            <p style="margin-top: 0.5rem;">Desenvolvido com 💜 usando HTML, CSS e JavaScript</p>
+            <p style="margin-top: 0.5rem;">Licença: MIT - Uso Livre</p>
+            <p style="margin-top: 1rem; font-size: 0.9rem;">
+                © 2026 SYNTRA AI Team | Todos os direitos reservados
+            </p>
+        </div>
+    </div>
+</body>
+</html>
