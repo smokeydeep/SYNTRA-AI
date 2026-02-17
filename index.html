@@ -6,70 +6,88 @@
   <style>
     body {
       font-family: Arial, sans-serif;
+      background-color: #e5ddd5;
       display: flex;
       flex-direction: column;
       align-items: center;
-      background: #f0f2f5;
       margin: 0;
-      padding: 50px 0;
+      height: 100vh;
+      padding: 20px;
     }
     h1 {
       color: #333;
+      margin-bottom: 10px;
     }
     #chatContainer {
-      width: 360px;
+      width: 400px;
+      max-width: 95%;
+      display: flex;
+      flex-direction: column;
+      border-radius: 10px;
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      height: 500px;
+    }
+    #chatBox {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 10px;
+      background-color: #f0f0f0;
+    }
+    .message {
+      padding: 10px 15px;
+      border-radius: 20px;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+    .user {
+      background-color: #dcf8c6;
+      align-self: flex-end;
+    }
+    .ai {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      align-self: flex-start;
+    }
+    #inputContainer {
+      display: flex;
+      border-top: 1px solid #ccc;
+      background-color: #fff;
     }
     #userInput {
-      width: 100%;
-      padding: 12px;
+      flex: 1;
+      padding: 15px;
+      border: none;
+      outline: none;
       font-size: 16px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
+      border-radius: 0;
     }
     #sendBtn {
-      padding: 12px;
+      padding: 0 20px;
       font-size: 16px;
-      cursor: pointer;
       background-color: #4CAF50;
       color: white;
       border: none;
-      border-radius: 5px;
+      cursor: pointer;
       transition: background-color 0.2s;
     }
     #sendBtn:hover {
       background-color: #45a049;
-    }
-    #chatBox {
-      min-height: 150px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 10px;
-      background: #fff;
-      overflow-y: auto;
-    }
-    .message {
-      margin: 5px 0;
-    }
-    .user {
-      font-weight: bold;
-      color: #333;
-    }
-    .ai {
-      font-weight: bold;
-      color: #4CAF50;
     }
   </style>
 </head>
 <body>
   <h1>SYNTRA AI</h1>
   <div id="chatContainer">
-    <input id="userInput" type="text" placeholder="Digite sua mensagem aqui">
-    <button id="sendBtn">Enviar</button>
     <div id="chatBox"></div>
+    <div id="inputContainer">
+      <input id="userInput" type="text" placeholder="Digite sua mensagem">
+      <button id="sendBtn">Enviar</button>
+    </div>
   </div>
 
   <script>
@@ -87,36 +105,32 @@
     const input = document.getElementById("userInput");
     const btn = document.getElementById("sendBtn");
 
+    function addMessage(text, type) {
+      const div = document.createElement("div");
+      div.classList.add("message", type);
+      div.innerText = text;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight; // rolagem automática
+    }
+
     btn.addEventListener("click", async () => {
       const msg = input.value.trim();
       if (!msg) return;
 
-      // Mensagem do usuário
-      const userDiv = document.createElement("div");
-      userDiv.classList.add("message", "user");
-      userDiv.innerText = "Você: " + msg;
-      chatBox.appendChild(userDiv);
-      chatBox.scrollTop = chatBox.scrollHeight;
-
+      addMessage(msg, "user"); // mensagem do usuário
       input.value = "";
 
-      // Mensagem "carregando" da IA
-      const aiDiv = document.createElement("div");
-      aiDiv.classList.add("message", "ai");
-      aiDiv.innerText = "SYNTRA AI: ...";
-      chatBox.appendChild(aiDiv);
-      chatBox.scrollTop = chatBox.scrollHeight;
+      addMessage("...", "ai"); // placeholder da IA
+      const aiDiv = chatBox.lastChild;
 
-      // Recebe resposta da IA
       const resposta = await perguntarIA(msg);
-      aiDiv.innerText = "SYNTRA AI: " + resposta;
-      chatBox.scrollTop = chatBox.scrollHeight;
+      aiDiv.innerText = resposta;
     });
 
-    // Enviar com Enter
     input.addEventListener("keypress", (e) => {
       if (e.key === "Enter") btn.click();
     });
   </script>
 </body>
 </html>
+
