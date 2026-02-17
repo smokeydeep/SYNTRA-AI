@@ -158,10 +158,10 @@
       const msg = input.value.trim();
       if (!msg) return;
 
-      addMessage(msg, "user", "https://i.pravatar.cc/35?img=3"); // avatar do usuário
+      addMessage(msg, "user", "https://i.pravatar.cc/35?img=3");
       input.value = "";
 
-      addMessage("...", "ai", "https://i.pravatar.cc/35?img=5"); // avatar da IA
+      addMessage("...", "ai", "https://i.pravatar.cc/35?img=5");
       const aiDiv = chatBox.lastChild.querySelector(".message");
 
       const resposta = await perguntarIA(msg);
