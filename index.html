@@ -1,31 +1,122 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>SYNTRA AI Teste</title>
-  </head>
-  <body>
-    <input id="userInput" type="text" placeholder="Digite aqui">
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>SYNTRA AI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 50px 0;
+    }
+    h1 {
+      color: #333;
+    }
+    #chatContainer {
+      width: 360px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    #userInput {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    #sendBtn {
+      padding: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.2s;
+    }
+    #sendBtn:hover {
+      background-color: #45a049;
+    }
+    #chatBox {
+      min-height: 150px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      background: #fff;
+      overflow-y: auto;
+    }
+    .message {
+      margin: 5px 0;
+    }
+    .user {
+      font-weight: bold;
+      color: #333;
+    }
+    .ai {
+      font-weight: bold;
+      color: #4CAF50;
+    }
+  </style>
+</head>
+<body>
+  <h1>SYNTRA AI</h1>
+  <div id="chatContainer">
+    <input id="userInput" type="text" placeholder="Digite sua mensagem aqui">
     <button id="sendBtn">Enviar</button>
-    <div id="chatBox" style="margin-top:20px;"></div>
+    <div id="chatBox"></div>
+  </div>
 
-    <script>
-      async function perguntarIA(textoUsuario) {
-        const res = await fetch("/api/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: textoUsuario })
-        });
-        const data = await res.json();
-        return data.reply;
-      }
-
-      document.getElementById("sendBtn").addEventListener("click", async () => {
-        const msg = document.getElementById("userInput").value;
-        if (!msg) return;
-        const resposta = await perguntarIA(msg);
-        document.getElementById("chatBox").innerText = resposta;
+  <script>
+    async function perguntarIA(textoUsuario) {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: textoUsuario })
       });
-    </script>
-  </body>
-</html>
+      const data = await res.json();
+      return data.reply;
+    }
 
+    const chatBox = document.getElementById("chatBox");
+    const input = document.getElementById("userInput");
+    const btn = document.getElementById("sendBtn");
+
+    btn.addEventListener("click", async () => {
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      // Mensagem do usuário
+      const userDiv = document.createElement("div");
+      userDiv.classList.add("message", "user");
+      userDiv.innerText = "Você: " + msg;
+      chatBox.appendChild(userDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      input.value = "";
+
+      // Mensagem "carregando" da IA
+      const aiDiv = document.createElement("div");
+      aiDiv.classList.add("message", "ai");
+      aiDiv.innerText = "SYNTRA AI: ...";
+      chatBox.appendChild(aiDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      // Recebe resposta da IA
+      const resposta = await perguntarIA(msg);
+      aiDiv.innerText = "SYNTRA AI: " + resposta;
+      chatBox.scrollTop = chatBox.scrollHeight;
+    });
+
+    // Enviar com Enter
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") btn.click();
+    });
+  </script>
+</body>
+</html>
