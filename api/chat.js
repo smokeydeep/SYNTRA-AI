@@ -33,11 +33,9 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
-    console.log("Resposta da OpenAI:", data); // debug
+    console.log("Resposta da OpenAI:", data);
 
-    // Corrige undefined
     const reply = data?.choices?.[0]?.message?.content || "Desculpe, não consegui responder.";
-
     res.status(200).json({ reply });
 
   } catch (error) {
