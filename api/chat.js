@@ -12,12 +12,14 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Mensagem vazia" });
     }
 
-    if (!process.env.GEMINI_API_KEY) {
+    const apiKey = process.env.GEMINI_API_KEY;
+
+    if (!apiKey) {
       return res.status(500).json({ error: "API Key Gemini não encontrada" });
     }
 
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
       {
         method: "POST",
         headers: {
@@ -36,11 +38,11 @@ export default async function handler(req, res) {
     );
 
     const data = await response.json();
-    console.log("Gemini:", data);
+    console.log("Gemini resposta:", data);
 
     const reply =
       data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-      "Não consegui responder.";
+      "Não consegui responder";
 
     res.status(200).json({ reply });
 
