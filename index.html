@@ -3,54 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minha IA Pessoal</title>
+    <title>AI Premium Interface</title>
     <style>
-        body { font-family: sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
-        #chat-container { border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
-        #output { margin-top: 20px; white-space: pre-wrap; background: #f4f4f4; padding: 10px; }
-        input { width: 80%; padding: 10px; }
-        button { padding: 10px; cursor: pointer; }
+        /* RESET E CORES */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        
+        body {
+            background: radial-gradient(circle at top, #1a2a6c, #0b132b); /* Fundo azul escuro profundo */
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        /* CONTAINER PRINCIPAL */
+        .chat-card {
+            width: 90%;
+            max-width: 800px;
+            height: 80vh;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px); /* Efeito de vidro */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        /* HEADER */
+        .chat-header {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-header h2 { font-weight: 300; letter-spacing: 2px; color: #4facfe; }
+
+        /* ÁREA DE MENSAGENS */
+        #chat-window {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message { padding: 12px 18px; border-radius: 15px; max-width: 80%; line-height: 1.5; }
+        .user-msg { align-self: flex-end; background: #4facfe; color: white; }
+        .ai-msg { align-self: flex-start; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); }
+
+        /* INPUT AREA */
+        .input-area {
+            padding: 20px;
+            display: flex;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus { border-color: #4facfe; background: rgba(255, 255, 255, 0.1); }
+
+        button {
+            background: #4facfe;
+            border: none;
+            padding: 0 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover { background: #00f2fe; transform: translateY(-2px); }
+
+        /* Scrollbar customizada */
+        #chat-window::-webkit-scrollbar { width: 5px; }
+        #chat-window::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
     </style>
 </head>
 <body>
 
-    <div id="chat-container">
-        <h2>Interface da IA</h2>
-        <input type="text" id="userInput" placeholder="Pergunte algo...">
-        <button onclick="enviarPergunta()">Enviar</button>
+    <div class="chat-card">
+        <div class="chat-header">
+            <h2>AI CORE SYSTEM</h2>
+        </div>
         
-        <div id="output">A resposta aparecerá aqui...</div>
+        <div id="chat-window">
+            <div class="message ai-msg">Olá! Sistema online. Como posso ajudar você hoje?</div>
+        </div>
+
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Digite sua mensagem..." onkeypress="handleEnter(event)">
+            <button onclick="sendMessage()">ENVIAR</button>
+        </div>
     </div>
 
-    <script
+    <script>
         const API_KEY = "AIzaSyCEz_b_U76SN1KTzd_JBtcNrrEmuMgfYXU";
         const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
 
-        async function enviarPergunta() {
-            const input = document.getElementById('userInput').value;
-            const output = document.getElementById('output');
-            
-            if (!input) return alert("Digite algo!");
+        function handleEnter(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
 
-            output.innerText = "Pensando...";
+        async function sendMessage() {
+            const inputField = document.getElementById('userInput');
+            const chatWindow = document.getElementById('chat-window');
+            const message = inputField.value.trim();
+
+            if (!message) return;
+
+            // Adiciona mensagem do usuário na tela
+            addMessage(message, 'user-msg');
+            inputField.value = '';
+
+            // Adiciona balão de "digitando"
+            const typingDiv = addMessage('Aguardando resposta...', 'ai-msg');
 
             try {
                 const response = await fetch(API_URL, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        contents: [{ parts: [{ text: input }] }]
+                        contents: [{ parts: [{ text: message }] }]
                     })
                 });
 
-                const data = await response.json()
-                const respostaIA = data.candidates[0].content.parts[0].text;
-                output.innerText = respostaIA;
+                const data = await response.json();
+                const aiText = data.candidates[0].content.parts[0].text;
+
+                // Substitui o texto de carregamento pela resposta real
+                typingDiv.innerText = aiText;
 
             } catch (error) {
-                console.error("Erro na requisição:", error);
-                output.innerText = "Erro ao buscar informações. Verifique o console.";
+                typingDiv.innerText = "Erro ao conectar com a IA. Verifique sua chave ou conexão.";
+                console.error(error);
             }
+
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        function addMessage(text, type) {
+            const chatWindow = document.getElementById('chat-window');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${type}`;
+            msgDiv.innerText = text;
+            chatWindow.appendChild(msgDiv);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+            return msgDiv;
         }
     </script>
 </body>
