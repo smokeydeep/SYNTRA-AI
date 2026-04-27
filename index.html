@@ -1,176 +1,57 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>SYNTRA AI</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: url('https://images.unsplash.com/photo-1534321702061-5dba7b9c0d07?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
-      background-size: cover;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      height: 100vh;
-      padding: 20px;
-      color: #fff;
-    }
-
-    h1 {
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 5px #000;
-    }
-
-    #chatContainer {
-      width: 400px;
-      max-width: 95%;
-      display: flex;
-      flex-direction: column;
-      border-radius: 10px;
-      background-color: rgba(0,0,0,0.5);
-      overflow: hidden;
-      height: 500px;
-    }
-
-    #chatBox {
-      flex: 1;
-      padding: 15px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .messageContainer {
-      display: flex;
-      align-items: flex-end;
-      gap: 10px;
-    }
-
-    .messageContainer.user {
-      justify-content: flex-end;
-    }
-
-    .avatar {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .message {
-      max-width: 70%;
-      padding: 10px 15px;
-      border-radius: 15px;
-      word-wrap: break-word;
-      background-color: rgba(255,255,255,0.9);
-      color: #000;
-    }
-
-    .message.user {
-      background-color: #4CAF50;
-      color: #fff;
-      border-radius: 15px 15px 0 15px;
-    }
-
-    #inputContainer {
-      display: flex;
-      border-top: 1px solid #ccc;
-      background-color: rgba(0,0,0,0.7);
-    }
-
-    #userInput {
-      flex: 1;
-      padding: 15px;
-      font-size: 16px;
-      border: none;
-      outline: none;
-      border-radius: 0;
-      background-color: rgba(255,255,255,0.8);
-    }
-
-    #sendBtn {
-      padding: 0 20px;
-      font-size: 16px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-
-    #sendBtn:hover {
-      background-color: #45a049;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha IA Pessoal</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
+        #chat-container { border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
+        #output { margin-top: 20px; white-space: pre-wrap; background: #f4f4f4; padding: 10px; }
+        input { width: 80%; padding: 10px; }
+        button { padding: 10px; cursor: pointer; }
+    </style>
 </head>
 <body>
-  <h1>SYNTRA AI</h1>
-  <div id="chatContainer">
-    <div id="chatBox"></div>
-    <div id="inputContainer">
-      <input id="userInput" type="text" placeholder="Digite sua mensagem">
-      <button id="sendBtn">Enviar</button>
+
+    <div id="chat-container">
+        <h2>Interface da IA</h2>
+        <input type="text" id="userInput" placeholder="Pergunte algo...">
+        <button onclick="enviarPergunta()">Enviar</button>
+        
+        <div id="output">A resposta aparecerá aqui...</div>
     </div>
-  </div>
 
-  <script>
-    async function perguntarIA(textoUsuario) {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: textoUsuario })
-      });
-      const data = await res.json();
-      return data.reply;
-    }
+    <script
+        const API_KEY = "AIzaSyCEz_b_U76SN1KTzd_JBtcNrrEmuMgfYXU";
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
 
-    const chatBox = document.getElementById("chatBox");
-    const input = document.getElementById("userInput");
-    const btn = document.getElementById("sendBtn");
+        async function enviarPergunta() {
+            const input = document.getElementById('userInput').value;
+            const output = document.getElementById('output');
+            
+            if (!input) return alert("Digite algo!");
 
-    function addMessage(text, type, avatarUrl) {
-      const container = document.createElement("div");
-      container.classList.add("messageContainer", type);
+            output.innerText = "Pensando...";
 
-      const avatar = document.createElement("img");
-      avatar.classList.add("avatar");
-      avatar.src = avatarUrl;
+            try {
+                const response = await fetch(API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: input }] }]
+                    })
+                });
 
-      const msg = document.createElement("div");
-      msg.classList.add("message", type);
-      msg.innerText = text;
+                const data = await response.json()
+                const respostaIA = data.candidates[0].content.parts[0].text;
+                output.innerText = respostaIA;
 
-      if(type === "user") {
-        container.appendChild(msg);
-        container.appendChild(avatar);
-      } else {
-        container.appendChild(avatar);
-        container.appendChild(msg);
-      }
-
-      chatBox.appendChild(container);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    btn.addEventListener("click", async () => {
-      const msg = input.value.trim();
-      if (!msg) return;
-
-      addMessage(msg, "user", "https://i.pravatar.cc/35?img=3");
-      input.value = "";
-
-      addMessage("...", "ai", "https://i.pravatar.cc/35?img=5");
-      const aiDiv = chatBox.lastChild.querySelector(".message");
-
-      const resposta = await perguntarIA(msg);
-      aiDiv.innerText = resposta;
-    });
-
-    input.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") btn.click();
-    });
-  </script>
+            } catch (error) {
+                console.error("Erro na requisição:", error);
+                output.innerText = "Erro ao buscar informações. Verifique o console.";
+            }
+        }
+    </script>
 </body>
 </html>
