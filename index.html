@@ -3,69 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEURAL INTERFACE</title>
+    <title>AI CORE SYSTEM</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-        body { background: #050a14; display: flex; align-items: center; justify-content: center; height: 100vh; color: #fff; }
-        .container { width: 95%; max-width: 900px; height: 85vh; background: #0d1626; border-radius: 12px; display: flex; flex-direction: column; border: 1px solid #00d2ff33; overflow: hidden; }
-        .header { padding: 15px; text-align: center; background: #000; border-bottom: 1px solid #00d2ff33; }
-        .header h1 { font-size: 1.2rem; letter-spacing: 3px; color: #00d2ff; }
-        #chat { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; background: radial-gradient(circle, #0d1626, #050a14); }
-        .m { padding: 12px 16px; border-radius: 10px; max-width: 80%; line-height: 1.4; }
-        .u { align-self: flex-end; background: #00d2ff; color: #000; font-weight: bold; }
-        .a { align-self: flex-start; background: #ffffff0d; border: 1px solid #ffffff1a; }
-        .bar { padding: 20px; display: flex; gap: 10px; background: #0000004d; }
-        input { flex: 1; background: #1a263d; border: 1px solid #ffffff1a; padding: 14px; border-radius: 6px; color: #fff; outline: none; }
-        button { background: #00d2ff; color: #000; border: none; padding: 0 20px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        body { background: #0b132b; display: flex; align-items: center; justify-content: center; height: 100vh; color: #fff; }
+        .chat-container { width: 95%; max-width: 1000px; height: 90vh; background: #1c2541; border-radius: 20px; display: flex; flex-direction: column; box-shadow: 0 20px 60px #000; border: 1px solid #3a506b; overflow: hidden; }
+        .header { padding: 25px; background: #0b132b; text-align: center; border-bottom: 2px solid #3a506b; }
+        .header h2 { color: #5bc0be; letter-spacing: 5px; text-transform: uppercase; }
+        #chat-window { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; background: radial-gradient(circle, #1c2541, #0b132b); }
+        .msg { padding: 15px 20px; border-radius: 15px; max-width: 75%; font-size: 16px; line-height: 1.6; }
+        .user { align-self: flex-end; background: #5bc0be; color: #0b132b; font-weight: 600; }
+        .ai { align-self: flex-start; background: #3a506b; color: #fff; border: 1px solid #5bc0be33; }
+        .input-bar { padding: 25px; background: #0b132b; display: flex; gap: 15px; border-top: 1px solid #3a506b; }
+        input { flex: 1; background: #1c2541; border: 1px solid #3a506b; padding: 18px; border-radius: 12px; color: white; outline: none; }
+        button { background: #5bc0be; border: none; padding: 0 35px; border-radius: 12px; color: #0b132b; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="header"><h1>NEURAL INTERFACE</h1></div>
-    <div id="chat"></div>
-    <div class="bar">
-        <input type="text" id="in" placeholder="Comando..." autocomplete="off">
-        <button id="go">EXECUTAR</button>
+<div class="chat-container">
+    <div class="header"><h2>AI CORE SYSTEM</h2></div>
+    <div id="chat-window"><div class="msg ai">SISTEMA ONLINE.</div></div>
+    <div class="input-bar">
+        <input type="text" id="userInput" placeholder="Digite..." autocomplete="off">
+        <button id="btn">ENVIAR</button>
     </div>
 </div>
 <script>
-    const K = "AIzaSyCEz_b_U76SN1KTzd_JBtcNrrEmuMgfYXU";
-    // URL ATUALIZADA PARA O MODELO 1.5 FLASH
-    const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${K}`;
-    const box = document.getElementById('chat');
-    const input = document.getElementById('in');
+    // COLOQUE A CHAVE NOVA QUE VOCÊ GEROU DENTRO DAS ASPAS ABAIXO
+    const KEY = "COLOQUE_SUA_CHAVE_NOVA_AQUI"; 
+    const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${KEY}`;
 
-    async function send() {
-        const v = input.value.trim();
-        if(!v) return;
-        add(v, 'u');
-        input.value = '';
-        const b = add("Aguarde...", "a");
+    const win = document.getElementById('chat-window');
+    const inp = document.getElementById('userInput');
+    const btn = document.getElementById('btn');
+
+    async function acao() {
+        const txt = inp.value.trim();
+        if (!txt) return;
+        add(txt, 'user');
+        inp.value = '';
+        const b = add("Pensando...", "ai");
         try {
             const r = await fetch(URL, {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({contents: [{parts: [{text: v}]}]})
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ contents: [{ parts: [{ text: txt }] }] })
             });
             const d = await r.json();
-            if(d.candidates) {
+            if (d.candidates && d.candidates[0].content) {
                 b.innerText = d.candidates[0].content.parts[0].text;
             } else {
-                b.innerText = "ERRO: Verifique se sua chave ainda é válida ou se a cota acabou.";
+                b.innerText = "ERRO: " + (d.error ? d.error.message : "Chave inválida ou bloqueada.");
             }
-        } catch(e) { b.innerText = "ERRO DE CONEXÃO."; }
+        } catch (e) { b.innerText = "ERRO DE CONEXÃO."; }
     }
 
     function add(t, c) {
         const d = document.createElement('div');
-        d.className = `m ${c}`;
+        d.className = `msg ${c}`;
         d.innerText = t;
-        box.appendChild(d);
-        box.scrollTop = box.scrollHeight;
+        win.appendChild(d);
+        win.scrollTop = win.scrollHeight;
         return d;
     }
-    document.getElementById('go').onclick = send;
-    input.onkeypress = (e) => { if(e.key === 'Enter') send(); };
+    btn.onclick = acao;
+    inp.onkeypress = (e) => { if(e.key === 'Enter') acao(); };
 </script>
 </body>
 </html>
