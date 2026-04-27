@@ -3,206 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI CORE SYSTEM - Oficial</title>
+    <title>NEURAL INTERFACE</title>
     <style>
-        /* CSS PREMIUM - DESIGN AZUL ESCURO */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        
-        body { 
-            background: #0b132b; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100vh; 
-            color: #ffffff;
-        }
-
-        .chat-container {
-            width: 95%;
-            max-width: 1000px;
-            height: 90vh;
-            background: #1c2541;
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-            border: 1px solid #3a506b;
-            overflow: hidden;
-        }
-
-        .header {
-            padding: 25px;
-            background: #0b132b;
-            text-align: center;
-            border-bottom: 2px solid #3a506b;
-        }
-
-        .header h2 {
-            color: #5bc0be;
-            letter-spacing: 5px;
-            font-weight: 300;
-            text-transform: uppercase;
-        }
-
-        #chat-window {
-            flex: 1;
-            padding: 30px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            background: radial-gradient(circle at center, #1c2541, #0b132b);
-        }
-
-        .msg {
-            padding: 15px 20px;
-            border-radius: 15px;
-            max-width: 75%;
-            font-size: 16px;
-            line-height: 1.6;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .user {
-            align-self: flex-end;
-            background: #5bc0be;
-            color: #0b132b;
-            font-weight: 600;
-            border-bottom-right-radius: 2px;
-        }
-
-        .ai {
-            align-self: flex-start;
-            background: #3a506b;
-            color: #ffffff;
-            border-bottom-left-radius: 2px;
-            border: 1px solid #5bc0be33;
-        }
-
-        .input-bar {
-            padding: 25px;
-            background: #0b132b;
-            display: flex;
-            gap: 15px;
-            border-top: 1px solid #3a506b;
-        }
-
-        input {
-            flex: 1;
-            background: #1c2541;
-            border: 1px solid #3a506b;
-            padding: 18px;
-            border-radius: 12px;
-            color: white;
-            font-size: 16px;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        input:focus {
-            border-color: #5bc0be;
-            box-shadow: 0 0 10px rgba(91, 192, 190, 0.2);
-        }
-
-        button {
-            background: #5bc0be;
-            border: none;
-            padding: 0 35px;
-            border-radius: 12px;
-            color: #0b132b;
-            font-weight: bold;
-            font-size: 14px;
-            cursor: pointer;
-            transition: 0.3s;
-            text-transform: uppercase;
-        }
-
-        button:hover {
-            background: #6fffe9;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(91, 192, 190, 0.4);
-        }
-
-        /* Barra de rolagem */
-        #chat-window::-webkit-scrollbar { width: 6px; }
-        #chat-window::-webkit-scrollbar-thumb { background: #3a506b; border-radius: 10px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background: #050a14; display: flex; align-items: center; justify-content: center; height: 100vh; color: #fff; }
+        .container { width: 95%; max-width: 900px; height: 85vh; background: #0d1626; border-radius: 12px; display: flex; flex-direction: column; border: 1px solid #00d2ff33; overflow: hidden; }
+        .header { padding: 15px; text-align: center; background: #000; border-bottom: 1px solid #00d2ff33; }
+        .header h1 { font-size: 1.2rem; letter-spacing: 3px; color: #00d2ff; }
+        #chat { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; background: radial-gradient(circle, #0d1626, #050a14); }
+        .m { padding: 12px 16px; border-radius: 10px; max-width: 80%; line-height: 1.4; }
+        .u { align-self: flex-end; background: #00d2ff; color: #000; font-weight: bold; }
+        .a { align-self: flex-start; background: #ffffff0d; border: 1px solid #ffffff1a; }
+        .bar { padding: 20px; display: flex; gap: 10px; background: #0000004d; }
+        input { flex: 1; background: #1a263d; border: 1px solid #ffffff1a; padding: 14px; border-radius: 6px; color: #fff; outline: none; }
+        button { background: #00d2ff; color: #000; border: none; padding: 0 20px; border-radius: 6px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
-
-<div class="chat-container">
-    <div class="header"><h2>AI CORE SYSTEM</h2></div>
-    <div id="chat-window">
-        <div class="msg ai">SISTEMA ONLINE. Aguardando entrada de dados...</div>
-    </div>
-    <div class="input-bar">
-        <input type="text" id="userInput" placeholder="Digite sua mensagem aqui..." autocomplete="off">
-        <button id="btnEnviar">ENVIAR</button>
+<div class="container">
+    <div class="header"><h1>NEURAL INTERFACE</h1></div>
+    <div id="chat"></div>
+    <div class="bar">
+        <input type="text" id="in" placeholder="Comando..." autocomplete="off">
+        <button id="go">EXECUTAR</button>
     </div>
 </div>
-
 <script>
-    // Configurações da API
-    const API_KEY = "AIzaSyCEz_b_U76SN1KTzd_JBtcNrrEmuMgfYXU";
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+    const K = "AIzaSyCEz_b_U76SN1KTzd_JBtcNrrEmuMgfYXU";
+    // URL ATUALIZADA PARA O MODELO 1.5 FLASH
+    const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${K}`;
+    const box = document.getElementById('chat');
+    const input = document.getElementById('in');
 
-    const chatWindow = document.getElementById('chat-window');
-    const inputField = document.getElementById('userInput');
-    const btnEnviar = document.getElementById('btnEnviar');
-
-    async function processarIA() {
-        const mensagem = inputField.value.trim();
-        if (!mensagem) return;
-
-        // 1. Mostrar mensagem do usuário
-        criarMensagem(mensagem, 'user');
-        inputField.value = '';
-
-        // 2. Criar balão de espera da IA
-        const botMsgDiv = criarMensagem("Processando...", "ai");
-
+    async function send() {
+        const v = input.value.trim();
+        if(!v) return;
+        add(v, 'u');
+        input.value = '';
+        const b = add("Aguarde...", "a");
         try {
-            const resposta = await fetch(API_URL, {
+            const r = await fetch(URL, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: mensagem }] }]
-                })
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({contents: [{parts: [{text: v}]}]})
             });
-
-            const data = await resposta.json();
-
-            // 3. Extrair texto da resposta
-            if (data.candidates && data.candidates[0].content.parts[0].text) {
-                botMsgDiv.innerText = data.candidates[0].content.parts[0].text;
+            const d = await r.json();
+            if(d.candidates) {
+                b.innerText = d.candidates[0].content.parts[0].text;
             } else {
-                botMsgDiv.innerText = "Erro: A API não retornou texto. Verifique sua cota no Google Cloud.";
+                b.innerText = "ERRO: Verifique se sua chave ainda é válida ou se a cota acabou.";
             }
-
-        } catch (error) {
-            botMsgDiv.innerText = "ERRO CRÍTICO: Falha na conexão com o servidor da IA.";
-            console.error(error);
-        }
-
-        // Scroll para o fim
-        chatWindow.scrollTop = chatWindow.scrollHeight;
+        } catch(e) { b.innerText = "ERRO DE CONEXÃO."; }
     }
 
-    function criarMensagem(texto, tipo) {
-        const div = document.createElement('div');
-        div.className = `msg ${tipo}`;
-        div.innerText = texto;
-        chatWindow.appendChild(div);
-        chatWindow.scrollTop = chatWindow.scrollHeight;
-        return div;
+    function add(t, c) {
+        const d = document.createElement('div');
+        d.className = `m ${c}`;
+        d.innerText = t;
+        box.appendChild(d);
+        box.scrollTop = box.scrollHeight;
+        return d;
     }
-
-    // Eventos de clique e teclado
-    btnEnviar.addEventListener('click', processarIA);
-    inputField.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') processarIA();
-    });
+    document.getElementById('go').onclick = send;
+    input.onkeypress = (e) => { if(e.key === 'Enter') send(); };
 </script>
-
 </body>
 </html>
