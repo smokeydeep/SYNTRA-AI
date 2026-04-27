@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI CORE SYSTEM - TOGETHER</title>
+    <title>AI CORE SYSTEM - HUGGING FACE</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background: #0b132b; display: flex; align-items: center; justify-content: center; height: 100vh; color: #fff; }
@@ -22,7 +22,7 @@
 <body>
 <div class="chat-container">
     <div class="header"><h2>AI CORE SYSTEM</h2></div>
-    <div id="chat-window"><div class="msg ai">SISTEMA TOGETHER ONLINE.</div></div>
+    <div id="chat-window"><div class="msg ai">SISTEMA HUGGING FACE ONLINE.</div></div>
     <div class="input-bar">
         <input type="text" id="userInput" placeholder="Digite seu comando..." autocomplete="off">
         <button id="btn">ENVIAR</button>
@@ -30,8 +30,8 @@
 </div>
 
 <script>
-    // 1. COLOQUE SUA CHAVE DA TOGETHER AI AQUI
-    const API_KEY = "tgp_v1_1QAL6n8OztkheHky6if_7ltx7mC8ZbYbYUHl62Eu5DU"; 
+    // 1. COLOQUE SEU TOKEN DA HUGGING FACE AQUI (hf_...)
+    const HF_TOKEN = "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"; 
 
     async function acao() {
         const win = document.getElementById('chat-window');
@@ -40,14 +40,12 @@
         
         if (!txt) return;
         
-        // Mensagem do usuário
         const uDiv = document.createElement('div');
         uDiv.className = 'msg user';
         uDiv.innerText = txt;
         win.appendChild(uDiv);
         inp.value = '';
 
-        // Mensagem da IA (Aguardando)
         const b = document.createElement('div');
         b.className = 'msg ai';
         b.innerText = "Pensando...";
@@ -55,27 +53,32 @@
         win.scrollTop = win.scrollHeight;
 
         try {
-            const r = await fetch("https://api.together.xyz/v1/chat/completions", {
+            const r = await fetch("https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-8B-Instruct", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${API_KEY}`
+                    "Authorization": `Bearer ${HF_TOKEN}`
                 },
                 body: JSON.stringify({
-                    model: "meta-llama/Llama-3-8b-chat-hf",
-                    messages: [{ role: "user", content: txt }],
-                    max_tokens: 512
+                    inputs: txt,
+                    parameters: { max_new_tokens: 500 }
                 })
             });
 
             const d = await r.json();
-            if (d.choices && d.choices[0].message) {
-                b.innerText = d.choices[0].message.content;
+            
+            // Hugging face às vezes retorna um array ou erro de carregamento de modelo
+            if (d.error && d.error.includes("loading")) {
+                b.innerText = "O modelo está carregando nos servidores deles, tente enviar de novo em 10 segundos...";
+            } else if (d[0] && d[0].generated_text) {
+                // Remove o prompt original da resposta se ele vier junto
+                let resposta = d[0].generated_text.replace(txt, "").trim();
+                b.innerText = resposta || d[0].generated_text;
             } else {
-                b.innerText = "ERRO: " + (d.error ? d.error.message : "Falha na resposta");
+                b.innerText = "ERRO: " + (d.error || "Resposta desconhecida");
             }
         } catch (e) {
-            b.innerText = "ERRO DE CONEXÃO. Verifique sua chave ou internet.";
+            b.innerText = "ERRO DE CONEXÃO.";
         }
         win.scrollTop = win.scrollHeight;
     }
