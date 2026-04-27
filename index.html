@@ -5,63 +5,144 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI CORE SYSTEM</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background: #0b132b; display: flex; align-items: center; justify-content: center; height: 100vh; color: #fff; }
         .chat-container { width: 95%; max-width: 1000px; height: 90vh; background: #1c2541; border-radius: 20px; display: flex; flex-direction: column; box-shadow: 0 20px 60px #000; border: 1px solid #3a506b; overflow: hidden; }
         .header { padding: 25px; background: #0b132b; text-align: center; border-bottom: 2px solid #3a506b; }
         .header h2 { color: #5bc0be; letter-spacing: 5px; text-transform: uppercase; }
         #chat-window { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; background: radial-gradient(circle, #1c2541, #0b132b); }
         .msg { padding: 15px 20px; border-radius: 15px; max-width: 75%; font-size: 16px; line-height: 1.6; }
-        .user { align-self: flex-end; background: #5bc0be; color: #0b132b; font-weight: 600; }
-        .ai { align-self: flex-start; background: #3a506b; color: #fff; border: 1px solid #5bc0be33; }
+        .user { align-self: flex-end; background: #5bc0be; color: #0b132b; font-weight: 600; border-bottom-right-radius: 2px; }
+        .ai { align-self: flex-start; background: #3a506b; color: #fff; border: 1px solid #5bc0be33; border-bottom-left-radius: 2px; }
         .input-bar { padding: 25px; background: #0b132b; display: flex; gap: 15px; border-top: 1px solid #3a506b; }
-        input { flex: 1; background: #1c2541; border: 1px solid #3a506b; padding: 18px; border-radius: 12px; color: white; outline: none; }
-        button { background: #5bc0be; border: none; padding: 0 35px; border-radius: 12px; color: #0b132b; font-weight: bold; cursor: pointer; }
+        input { flex: 1; background: #1c2541; border: 1px solid #3a506b; padding: 18px; border-radius: 12px; color: white; outline: none; font-size: 16px; }
+        input:focus { border-color: #5bc0be; }
+        button { background: #5bc0be; border: none; padding: 0 35px; border-radius: 12px; color: #0b132b; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #6fffe9; }
     </style>
 </head>
 <body>
 <div class="chat-container">
     <div class="header"><h2>AI CORE SYSTEM</h2></div>
-    <div id="chat-window"><div class="msg ai">SISTEMA ONLINE.</div></div>
+    <div id="chat-window"><div class="msg ai">OLÁ,SE PRECISAR DE ALGO ESTOU AQUI.</div></div>
     <div class="input-bar">
-        <input type="text" id="userInput" placeholder="Digite..." autocomplete="off">
+        <input type="text" id="userInput" placeholder="Digite sua mensagem..." autocomplete="off">
         <button id="btn">ENVIAR</button>
     </div>
 </div>
+
 <script>
-    // 1. COLOQUE SUA CHAVE NOVA AQUI
-    const KEY = "AIzaSyA8PujfWI7wMqbzPpnImUP7AZe6Uy6UWco"; 
-    
-    // 2. URL ATUALIZADA PARA VERSÃO ESTÁVEL V1 E MODELO LATEST
-    const URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-latest:generateContent?key=${KEY}`;
-    
+    // 1. COLOQUE SUA CHAVE NOVA AQUI DENTRO DAS ASPAS
+    const MINHA_CHAVE = "<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI CORE SYSTEM</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #0b132b; display: flex; align-items: center; justify-content: center; height: 100vh; color: #fff; }
+        .chat-container { width: 95%; max-width: 1000px; height: 90vh; background: #1c2541; border-radius: 20px; display: flex; flex-direction: column; box-shadow: 0 20px 60px #000; border: 1px solid #3a506b; overflow: hidden; }
+        .header { padding: 25px; background: #0b132b; text-align: center; border-bottom: 2px solid #3a506b; }
+        .header h2 { color: #5bc0be; letter-spacing: 5px; text-transform: uppercase; }
+        #chat-window { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; background: radial-gradient(circle, #1c2541, #0b132b); }
+        .msg { padding: 15px 20px; border-radius: 15px; max-width: 75%; font-size: 16px; line-height: 1.6; }
+        .user { align-self: flex-end; background: #5bc0be; color: #0b132b; font-weight: 600; border-bottom-right-radius: 2px; }
+        .ai { align-self: flex-start; background: #3a506b; color: #fff; border: 1px solid #5bc0be33; border-bottom-left-radius: 2px; }
+        .input-bar { padding: 25px; background: #0b132b; display: flex; gap: 15px; border-top: 1px solid #3a506b; }
+        input { flex: 1; background: #1c2541; border: 1px solid #3a506b; padding: 18px; border-radius: 12px; color: white; outline: none; font-size: 16px; }
+        input:focus { border-color: #5bc0be; }
+        button { background: #5bc0be; border: none; padding: 0 35px; border-radius: 12px; color: #0b132b; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #6fffe9; }
+    </style>
+</head>
+<body>
+<div class="chat-container">
+    <div class="header"><h2>AI CORE SYSTEM</h2></div>
+    <div id="chat-window"><div class="msg ai">SISTEMA ONLINE. Aguardando comando...</div></div>
+    <div class="input-bar">
+        <input type="text" id="userInput" placeholder="Digite sua mensagem..." autocomplete="off">
+        <button id="btn">ENVIAR</button>
+    </div>
+</div>
+
+<script>
+    // 1. COLOQUE SUA CHAVE NOVA AQUI DENTRO DAS ASPAS
+    const MINHA_CHAVE = "<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI CORE SYSTEM</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #0b132b; display: flex; align-items: center; justify-content: center; height: 100vh; color: #fff; }
+        .chat-container { width: 95%; max-width: 1000px; height: 90vh; background: #1c2541; border-radius: 20px; display: flex; flex-direction: column; box-shadow: 0 20px 60px #000; border: 1px solid #3a506b; overflow: hidden; }
+        .header { padding: 25px; background: #0b132b; text-align: center; border-bottom: 2px solid #3a506b; }
+        .header h2 { color: #5bc0be; letter-spacing: 5px; text-transform: uppercase; }
+        #chat-window { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; background: radial-gradient(circle, #1c2541, #0b132b); }
+        .msg { padding: 15px 20px; border-radius: 15px; max-width: 75%; font-size: 16px; line-height: 1.6; }
+        .user { align-self: flex-end; background: #5bc0be; color: #0b132b; font-weight: 600; border-bottom-right-radius: 2px; }
+        .ai { align-self: flex-start; background: #3a506b; color: #fff; border: 1px solid #5bc0be33; border-bottom-left-radius: 2px; }
+        .input-bar { padding: 25px; background: #0b132b; display: flex; gap: 15px; border-top: 1px solid #3a506b; }
+        input { flex: 1; background: #1c2541; border: 1px solid #3a506b; padding: 18px; border-radius: 12px; color: white; outline: none; font-size: 16px; }
+        input:focus { border-color: #5bc0be; }
+        button { background: #5bc0be; border: none; padding: 0 35px; border-radius: 12px; color: #0b132b; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #6fffe9; }
+    </style>
+</head>
+<body>
+<div class="chat-container">
+    <div class="header"><h2>AI CORE SYSTEM</h2></div>
+    <div id="chat-window"><div class="msg ai">SISTEMA ONLINE. Aguardando comando...</div></div>
+    <div class="input-bar">
+        <input type="text" id="userInput" placeholder="Digite sua mensagem..." autocomplete="off">
+        <button id="btn">ENVIAR</button>
+    </div>
+</div>
+
+<script>
+    // 1. COLOQUE SUA CHAVE NOVA AQUI DENTRO DAS ASPAS
+    const MINHA_CHAVE = "AIzaSyA8PujfWI7wMqbzPpnImUP7AZe6Uy6UWco"; 
+
+    // URL usando v1beta e o modelo flash sem o sufixo "latest" para evitar erro de rota
+    const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${MINHA_CHAVE}`;
+
     const win = document.getElementById('chat-window');
     const inp = document.getElementById('userInput');
     const btn = document.getElementById('btn');
 
-    async function acao() {
-        const txt = inp.value.trim();
-        if (!txt) return;
-        add(txt, 'user');
+    async function executar() {
+        const prompt = inp.value.trim();
+        if (!prompt) return;
+
+        add(prompt, 'user');
         inp.value = '';
-        const b = add("Pensando...", "ai");
+        
+        const loader = add("Processando...", "ai");
+
         try {
-            const r = await fetch(URL, {
+            const r = await fetch(ENDPOINT, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ contents: [{ parts: [{ text: txt }] }] })
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: prompt }] }]
+                })
             });
-            const d = await r.json();
-            
-            if (d.candidates && d.candidates[0].content) {
-                b.innerText = d.candidates[0].content.parts[0].text;
-            } else if (d.error) {
-                b.innerText = "ERRO DA API: " + d.error.message;
+
+            const data = await r.json();
+
+            if (data.candidates && data.candidates[0].content) {
+                loader.innerText = data.candidates[0].content.parts[0].text;
+            } else if (data.error) {
+                loader.innerText = "ERRO GOOGLE: " + data.error.message;
             } else {
-                b.innerText = "ERRO: Verifique sua chave no console do Google Cloud.";
+                loader.innerText = "ERRO: Resposta inesperada. Verifique se a chave está ativa.";
+                console.log(data);
             }
-        } catch (e) { 
-            b.innerText = "ERRO DE CONEXÃO."; 
+
+        } catch (e) {
+            loader.innerText = "ERRO DE CONEXÃO: Verifique sua internet.";
         }
     }
 
@@ -73,8 +154,121 @@
         win.scrollTop = win.scrollHeight;
         return d;
     }
-    btn.onclick = acao;
-    inp.onkeypress = (e) => { if(e.key === 'Enter') acao(); };
+
+    btn.onclick = executar;
+    inp.onkeypress = (e) => { if(e.key === 'Enter') executar(); };
+</script>
+</body>
+</html>"; 
+
+    // URL usando v1beta e o modelo flash sem o sufixo "latest" para evitar erro de rota
+    const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${MINHA_CHAVE}`;
+
+    const win = document.getElementById('chat-window');
+    const inp = document.getElementById('userInput');
+    const btn = document.getElementById('btn');
+
+    async function executar() {
+        const prompt = inp.value.trim();
+        if (!prompt) return;
+
+        add(prompt, 'user');
+        inp.value = '';
+        
+        const loader = add("Processando...", "ai");
+
+        try {
+            const r = await fetch(ENDPOINT, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: prompt }] }]
+                })
+            });
+
+            const data = await r.json();
+
+            if (data.candidates && data.candidates[0].content) {
+                loader.innerText = data.candidates[0].content.parts[0].text;
+            } else if (data.error) {
+                loader.innerText = "ERRO GOOGLE: " + data.error.message;
+            } else {
+                loader.innerText = "ERRO: Resposta inesperada. Verifique se a chave está ativa.";
+                console.log(data);
+            }
+
+        } catch (e) {
+            loader.innerText = "ERRO DE CONEXÃO: Verifique sua internet.";
+        }
+    }
+
+    function add(t, c) {
+        const d = document.createElement('div');
+        d.className = `msg ${c}`;
+        d.innerText = t;
+        win.appendChild(d);
+        win.scrollTop = win.scrollHeight;
+        return d;
+    }
+
+    btn.onclick = executar;
+    inp.onkeypress = (e) => { if(e.key === 'Enter') executar(); };
+</script>
+</body>
+</html>"; 
+
+    // URL usando v1beta e o modelo flash sem o sufixo "latest" para evitar erro de rota
+    const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${MINHA_CHAVE}`;
+
+    const win = document.getElementById('chat-window');
+    const inp = document.getElementById('userInput');
+    const btn = document.getElementById('btn');
+
+    async function executar() {
+        const prompt = inp.value.trim();
+        if (!prompt) return;
+
+        add(prompt, 'user');
+        inp.value = '';
+        
+        const loader = add("Processando...", "ai");
+
+        try {
+            const r = await fetch(ENDPOINT, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: prompt }] }]
+                })
+            });
+
+            const data = await r.json();
+
+            if (data.candidates && data.candidates[0].content) {
+                loader.innerText = data.candidates[0].content.parts[0].text;
+            } else if (data.error) {
+                loader.innerText = "ERRO GOOGLE: " + data.error.message;
+            } else {
+                loader.innerText = "ERRO: Resposta inesperada. Verifique se a chave está ativa.";
+                console.log(data);
+            }
+
+        } catch (e) {
+            loader.innerText = "ERRO DE CONEXÃO: Verifique sua internet.";
+        }
+    }
+
+    function add(t, c) {
+        const d = document.createElement('div');
+        d.className = `msg ${c}`;
+        d.innerText = t;
+        win.appendChild(d);
+        win.scrollTop = win.scrollHeight;
+        return d;
+    }
+
+    btn.onclick = executar;
+    inp.onkeypress = (e) => { if(e.key === 'Enter') executar(); };
 </script>
 </body>
 </html>
