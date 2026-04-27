@@ -3,126 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEURAL INTERFACE v3</title>
+    <title>AI CORE SYSTEM</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: #050a14; display: flex; align-items: center; justify-content: center; height: 100vh; color: #fff; }
-        
-        .container { 
-            width: 95%; max-width: 900px; height: 85vh; 
-            background: #0d1626; border-radius: 12px; 
-            display: flex; flex-direction: column; 
-            border: 1px solid #00d2ff33; overflow: hidden; 
-            box-shadow: 0 0 30px rgba(0, 210, 255, 0.1);
-        }
-
-        .header { 
-            padding: 20px; text-align: center; background: #000; 
-            border-bottom: 1px solid #00d2ff33; 
-        }
-
-        .header h1 { font-size: 1.4rem; letter-spacing: 4px; color: #00d2ff; text-transform: uppercase; }
-
-        #chat { 
-            flex: 1; padding: 25px; overflow-y: auto; 
-            display: flex; flex-direction: column; gap: 15px; 
-            background: radial-gradient(circle at center, #0d1626 0%, #050a14 100%); 
-        }
-
-        .m { padding: 14px 18px; border-radius: 12px; max-width: 80%; line-height: 1.5; font-size: 15px; }
-        .u { align-self: flex-end; background: #00d2ff; color: #000; font-weight: bold; border-bottom-right-radius: 2px; }
-        .a { align-self: flex-start; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-bottom-left-radius: 2px; }
-
-        .bar { padding: 20px; display: flex; gap: 12px; background: rgba(0, 0, 0, 0.4); border-top: 1px solid rgba(0, 210, 255, 0.1); }
-        input { 
-            flex: 1; background: #1a263d; border: 1px solid rgba(255, 255, 255, 0.1); 
-            padding: 15px; border-radius: 8px; color: #fff; outline: none; font-size: 16px;
-        }
-        input:focus { border-color: #00d2ff; }
-
-        button { 
-            background: #00d2ff; color: #000; border: none; 
-            padding: 0 25px; border-radius: 8px; font-weight: bold; 
-            cursor: pointer; transition: 0.2s; text-transform: uppercase;
-        }
-        button:hover { filter: brightness(1.2); transform: scale(1.02); }
-
-        /* Scrollbar */
-        #chat::-webkit-scrollbar { width: 5px; }
-        #chat::-webkit-scrollbar-thumb { background: #00d2ff33; border-radius: 10px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background: #0b132b; display: flex; align-items: center; justify-content: center; height: 100vh; color: #fff; }
+        .chat-container { width: 95%; max-width: 1000px; height: 90vh; background: #1c2541; border-radius: 20px; display: flex; flex-direction: column; box-shadow: 0 20px 60px #000; border: 1px solid #3a506b; overflow: hidden; }
+        .header { padding: 25px; background: #0b132b; text-align: center; border-bottom: 2px solid #3a506b; }
+        .header h2 { color: #5bc0be; letter-spacing: 5px; text-transform: uppercase; }
+        #chat-window { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; background: radial-gradient(circle, #1c2541, #0b132b); }
+        .msg { padding: 15px 20px; border-radius: 15px; max-width: 75%; font-size: 16px; line-height: 1.6; }
+        .user { align-self: flex-end; background: #5bc0be; color: #0b132b; font-weight: 600; }
+        .ai { align-self: flex-start; background: #3a506b; color: #fff; border: 1px solid #5bc0be33; }
+        .input-bar { padding: 25px; background: #0b132b; display: flex; gap: 15px; border-top: 1px solid #3a506b; }
+        input { flex: 1; background: #1c2541; border: 1px solid #3a506b; padding: 18px; border-radius: 12px; color: white; outline: none; }
+        button { background: #5bc0be; border: none; padding: 0 35px; border-radius: 12px; color: #0b132b; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <div class="header"><h1>NEURAL INTERFACE</h1></div>
-    <div id="chat">
-        <div class="m a">SISTEMA PRONTO. Insira sua nova chave no código para começar.</div>
-    </div>
-    <div class="bar">
-        <input type="text" id="in" placeholder="Digite seu comando..." autocomplete="off">
-        <button id="go">EXECUTAR</button>
+<div class="chat-container">
+    <div class="header"><h2>AI CORE SYSTEM</h2></div>
+    <div id="chat-window"><div class="msg ai">SISTEMA ONLINE.</div></div>
+    <div class="input-bar">
+        <input type="text" id="userInput" placeholder="Digite..." autocomplete="off">
+        <button id="btn">ENVIAR</button>
     </div>
 </div>
-
 <script>
-    /* COLE SUA CHAVE NOVA ENTRE AS ASPAS ABAIXO.
-       Se der erro de cota, verifique se você ativou o faturamento (mesmo que gratuito) 
-       ou se a API do Gemini está habilitada no seu console.
-    */
-    const K = "AIzaSyA8PujfWI7wMqbzPpnImUP7AZe6Uy6UWco"; 
+    // 1. COLOQUE SUA CHAVE NOVA AQUI
+    const KEY = "AIzaSyA8PujfWI7wMqbzPpnImUP7AZe6Uy6UWco"; 
     
-    // URL usando o modelo mais estável (1.5 Flash)
-    const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${K}`;
+    // 2. URL ATUALIZADA PARA VERSÃO ESTÁVEL V1 E MODELO LATEST
+    const URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-latest:generateContent?key=${KEY}`;
     
-    const box = document.getElementById('chat');
-    const input = document.getElementById('in');
-    const btn = document.getElementById('go');
+    const win = document.getElementById('chat-window');
+    const inp = document.getElementById('userInput');
+    const btn = document.getElementById('btn');
 
-    async function send() {
-        const v = input.value.trim();
-        if(!v) return;
-
-        add(v, 'u');
-        input.value = '';
-        
-        const b = add("Processando...", "a");
-
+    async function acao() {
+        const txt = inp.value.trim();
+        if (!txt) return;
+        add(txt, 'user');
+        inp.value = '';
+        const b = add("Pensando...", "ai");
         try {
             const r = await fetch(URL, {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({
-                    contents: [{parts: [{text: v}]}]
-                })
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ contents: [{ parts: [{ text: txt }] }] })
             });
-
             const d = await r.json();
-
-            if(d.candidates && d.candidates[0].content) {
+            
+            if (d.candidates && d.candidates[0].content) {
                 b.innerText = d.candidates[0].content.parts[0].text;
+            } else if (d.error) {
+                b.innerText = "ERRO DA API: " + d.error.message;
             } else {
-                // Isso vai mostrar o erro real que o Google está enviando
-                b.innerText = "ERRO DA API: " + (d.error ? d.error.message : "Resposta inesperada.");
-                console.log(d);
+                b.innerText = "ERRO: Verifique sua chave no console do Google Cloud.";
             }
-        } catch(e) {
-            b.innerText = "ERRO DE REDE: Verifique sua conexão.";
+        } catch (e) { 
+            b.innerText = "ERRO DE CONEXÃO."; 
         }
     }
 
     function add(t, c) {
         const d = document.createElement('div');
-        d.className = `m ${c}`;
+        d.className = `msg ${c}`;
         d.innerText = t;
-        box.appendChild(d);
-        box.scrollTop = box.scrollHeight;
+        win.appendChild(d);
+        win.scrollTop = win.scrollHeight;
         return d;
     }
-
-    btn.onclick = send;
-    input.onkeypress = (e) => { if(e.key === 'Enter') send(); };
+    btn.onclick = acao;
+    inp.onkeypress = (e) => { if(e.key === 'Enter') acao(); };
 </script>
-
 </body>
 </html>
